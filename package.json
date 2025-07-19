@@ -1,0 +1,31 @@
+{
+  "name": "flikart-plus",
+  "version": "2.0.0",
+  "description": "APIs of the Flikart + website",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "build": "npm install",
+    "pretest": "eslint --ignore-path .gitignore .",
+    "test": "tap test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EssiJunior/Flikart-backend.git"
+  },
+  "author": "NDANG ESSI Pierre Junior <nessipjunior@gmail.com>",
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
+    "mongoose": "^7.6.3",
+    "mysql2": "^3.9.8",
+    "nodemailer": "^6.9.7",
+    "nodemon": "^3.1.4",
+    "sequelize": "^6.37.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  }
+}
