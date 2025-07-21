@@ -1,8 +1,47 @@
 const usersModel = require('../models/users');
 
-module.exports.getUser = async (req, res) => {
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = "supersecretkey123"
+
+module.exports.getCurrentUser = async (req, res) => {
     try {
-        const user = await usersModel.findById(req.userId).select('-password');
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+
+        console.log("JWT_SECRET:", JWT_SECRET);
+        console.log("token:", token);
+        
+        if (!token) return res.status(401).json({ msg: 'No token provided.' });
+
+        let decoded;
+        
+        try {
+            decoded = jwt.verify(token, JWT_SECRET);
+        } catch (err) {
+            return res.status(401).json({ msg: 'Invalid token.' });
+        }
+
+        const user = await usersModel.findById(decoded.id).select('-password');
+        if (!user) return res.status(404).json({ msg: 'User not found.' });
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve user.' });
+    }
+};
+module.exports.getCurrentUserBalance = async (req, res) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        if (!token) return res.status(401).json({ msg: 'No token provided.' });
+
+        let decoded;
+        try {
+            decoded = jwt.verify(token, JWT_SECRET);
+        } catch (err) {
+            return res.status(401).json({ msg: 'Invalid token.' });
+        }
+
+        const user = await usersModel.findById(decoded.id).select('-password');
         if (!user) return res.status(404).json({ msg: 'User not found.' });
         res.status(200).json(user);
     } catch (err) {
@@ -19,11 +58,21 @@ module.exports.getUsers = async (req, res) => {
     }
 };
 
+module.exports.getUser = async (req, res) => {
+    try {
+        const user = await usersModel.findById(req.params.id);
+        if (!user) return res.status(404).json({ msg: 'User not found.' });
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to retrieve user.' });
+    }
+};
+
 module.exports.updateUser = async (req, res) => {
     try {
-        const updates = { name: req.body.name, email: req.body.email, phoneNumber: req.body.phoneNumber, balance: req.body.balance, role: req.body.role };
+        const updates = { username: req.body.username, email: req.body.email, phoneNumber: req.body.phoneNumber, role: req.body.role };
 
-        const updatedUser = await usersModel.findByIdAndUpdate(req.params.id, updates, { new: true }).select('-password');
+        const updatedUser = await usersModel.findByIdAndUpdate(req.params.id, updates, { new: true });
         if (!updatedUser) return res.status(404).json({ msg: 'User not found.' });
 
         res.status(200).json({ msg: 'User updated.', user: updatedUser });
@@ -31,29 +80,12 @@ module.exports.updateUser = async (req, res) => {
         res.status(500).json({ error: 'Failed to update user.' });
     }
 };
-
-module.exports.changeUserRole = async (req, res) => {
-    try {
-        const { role } = req.body;
-        if (!['user', 'admin'].includes(role)) {
-            return res.status(400).json({ msg: 'Invalid role.' });
-        }
-
-        const updatedUser = await usersModel.findByIdAndUpdate(req.params.id, { role }, { new: true }).select('-password');
-        if (!updatedUser) return res.status(404).json({ msg: 'User not found.' });
-
-        res.status(200).json({ msg: 'User role updated.', user: updatedUser });
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to update role.' });
-    }
-};
-
 module.exports.deleteUser = async (req, res) => {
     try {
         const deletedUser = await usersModel.findByIdAndDelete(req.params.id);
         if (!deletedUser) return res.status(404).json({ msg: 'User not found.' });
 
-        res.status(200).json({ msg: `User ${deletedUser.name} deleted.` });
+        res.status(200).json({ msg: `User ${deletedUser.username} deleted.` });
     } catch (err) {
         res.status(500).json({ error: 'Failed to delete user.' });
     }

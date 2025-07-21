@@ -3,6 +3,16 @@ const swaggerJSDoc = require('swagger-jsdoc')
 const options = {
     definition: {
         openapi: "3.1.0",
+
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT'
+                }
+            }
+        },
         info: {
             title: 'TrueNumber',
             description: 'APIs of the TrueNumber web app',
@@ -19,12 +29,12 @@ const options = {
             }
         ],
         tags: [{
-                name: 'Auth',
-                description: 'APIs for user authentication',
-            },{
-                name: 'Users',
-                description: 'APIs for managing users',
-            }
+            name: 'Auth',
+            description: 'APIs for user authentication',
+        }, {
+            name: 'Users',
+            description: 'APIs for managing users',
+        }
         ],
     },
     apis: ['*.js', './api/*.js']

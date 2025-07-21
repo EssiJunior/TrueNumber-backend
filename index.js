@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 require('dotenv').config();
 // API routers import
 const authRouter = require("./api/auth")
+const usersRouter = require("./api/users")
     // Swagger UI
 const swaggerUi = require('swagger-ui-express');
 const { swaggerSpec } = require("./utils/swagger_ui")
@@ -55,3 +56,4 @@ app.get('/', (req, res) => {
 })
 
 app.use("/api", authRouter)
+app.use("/api", usersRouter)
