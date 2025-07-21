@@ -28,6 +28,10 @@ const partyShema = mongoose.Schema({
     newBalance: {
         type: Number,
         required: [true, 'enter the new balance']
+    },
+    userId: {
+        type: String,
+        required: [true, 'enter the user id']
     }
 })
 

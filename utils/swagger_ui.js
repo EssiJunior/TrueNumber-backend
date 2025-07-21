@@ -34,6 +34,9 @@ const options = {
         }, {
             name: 'Users',
             description: 'APIs for managing users',
+        }, {
+            name: 'Party',
+            description: 'APIs for managing party',
         }
         ],
     },
