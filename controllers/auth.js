@@ -40,7 +40,7 @@ module.exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
 
-        res.status(200).json({ msg: 'Login successfully.', token});
+        res.status(200).json({ msg: 'Login successfully.', token, role: user.role });
     } catch (err) {
         console.error(err);
         res.status(500).json({ msg: 'Login failed.', err });
