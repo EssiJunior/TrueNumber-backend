@@ -19,6 +19,9 @@ const options = {
             }
         ],
         tags: [{
+                name: 'Auth',
+                description: 'APIs for user authentication',
+            },{
                 name: 'Users',
                 description: 'APIs for managing users',
             }

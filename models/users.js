@@ -19,7 +19,8 @@ const usersShema = mongoose.Schema({
     },
     balance:{
         type:Number,
-        required: [true, 'enter your balance']
+        required: [true, 'enter your balance'],
+        default: 0
     },
     role:{
         type:String,
