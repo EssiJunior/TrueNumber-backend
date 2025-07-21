@@ -2,7 +2,7 @@ const swaggerJSDoc = require('swagger-jsdoc')
 
 const options = {
     definition: {
-        openapi: "1.0.0",
+        openapi: "3.1.0",
         info: {
             title: 'TrueNumber',
             description: 'APIs of the TrueNumber web app',
