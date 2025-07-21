@@ -5,7 +5,7 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 require('dotenv').config();
 // API routers import
-// const authRouter = require("./api/auth")
+const authRouter = require("./api/auth")
     // Swagger UI
 const swaggerUi = require('swagger-ui-express');
 const { swaggerSpec } = require("./utils/swagger_ui")
@@ -54,4 +54,4 @@ app.get('/', (req, res) => {
     res.send('Welcome to TureNumber API server!')
 })
 
-// app.use("/api", authRouter)
+app.use("/api", authRouter)

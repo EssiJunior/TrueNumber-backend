@@ -1,30 +1,32 @@
 const mongoose = require('mongoose')
 
 const usersShema = mongoose.Schema({
-    username:{
+    username: {
         type: String,
-        required: [true, 'enter your name']
+        required: [true, 'enter your username']
     },
-    phoneNumber:{
-        type:String,
+    phoneNumber: {
+        type: String,
         required: [true, 'enter your phone number']
     },
-    email:{
-        type:String,
+    email: {
+        type: String,
         required: [true, 'enter your email']
     },
-    password:{
-        type:String,
+    password: {
+        type: String,
         required: [true, 'enter your password']
     },
-    balance:{
-        type:Number,
+    balance: {
+        type: Number,
         required: [true, 'enter your balance'],
         default: 0
     },
-    role:{
-        type:String,
-        required: [true, 'enter your role']
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        required: [true, 'enter your role'],
+        default: 'user'
     }
 })
 

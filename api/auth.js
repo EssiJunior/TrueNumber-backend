@@ -2,7 +2,7 @@ const {
     register,
     login,
     logout
-} = require('../controllers/users');
+} = require('../controllers/auth');
 
 const router = require("express").Router();
 
@@ -21,7 +21,7 @@ const router = require("express").Router();
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               username:
  *                 type: string
  *               email:
  *                 type: string
@@ -37,7 +37,7 @@ const router = require("express").Router();
  *       400:
  *         description: Email already exists
  */
-router.post('/user/register', register);
+router.post('/auth/register', register);
 
 /**
  * @swagger
@@ -64,7 +64,7 @@ router.post('/user/register', register);
  *       400:
  *         description: Invalid credentials
  */
-router.post('/user/login', login);
+router.post('/auth/login', login);
 
 /**
  * @swagger
@@ -79,3 +79,5 @@ router.post('/user/login', login);
  *         description: Logged out successfully
  */
 router.post('/auth/logout', logout);
+
+module.exports = router;

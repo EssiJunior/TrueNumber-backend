@@ -1,9 +1,9 @@
-const { 
-    getUser, 
-    getUsers, 
-    updateUser, 
-    changeUserRole, 
-    deleteUser 
+const {
+    getUser,
+    getUsers,
+    updateUser,
+    changeUserRole,
+    deleteUser
 } = require('../controllers/users');
 
 const router = require("express").Router();

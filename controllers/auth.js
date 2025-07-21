@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 module.exports.register = async (req, res) => {
     try {
-        const { name, email, phoneNumber, password, role } = req.body;
+        const { username, email, phoneNumber, password, role } = req.body;
 
         const existingUser = await usersModel.findOne({ email });
         if (existingUser) return res.status(400).json({ msg: 'Email already in use.' });
@@ -14,7 +14,7 @@ module.exports.register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await usersModel.create({
-            name,
+            username,
             email,
             phoneNumber,
             role,
@@ -24,7 +24,7 @@ module.exports.register = async (req, res) => {
         res.status(201).json({ msg: 'Account created.', user: newUser });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Registration failed.' });
+        res.status(500).json({ msg: 'Registration failed.', err });
     }
 };
 
@@ -40,10 +40,10 @@ module.exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
 
-        res.status(200).json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role } });
+        res.status(200).json({ msg: 'Login successfully.', token});
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Login failed.' });
+        res.status(500).json({ msg: 'Login failed.', err });
     }
 };
 
